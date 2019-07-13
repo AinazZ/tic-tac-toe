@@ -1,0 +1,17 @@
+.gameboard {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 150px;
+  height: 150px;
+  padding-top: 20px;
+}
+
+.user2 {
+  text-align: right;
+}
+
+.timer {
+  text-align: center;
+  padding-top: 40px;
+}
