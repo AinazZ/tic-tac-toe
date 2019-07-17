@@ -6,9 +6,15 @@ export default class Game extends Component{
   render() {
     return(
       <div className="game">
-        <div>{this.props.user1}</div>
-        <div>{this.props.user2}</div>
-        <div>{this.props.time}</div>
+        <div>
+          {this.props.user1}
+        </div>
+        <div>
+          {this.props.user2}
+        </div>
+        <div>
+          {this.props.time}
+        </div>
       </div>
     );
   }
