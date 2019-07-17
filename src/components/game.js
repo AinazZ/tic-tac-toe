@@ -1,52 +1,14 @@
 import React, { Component } from 'react';
 
 import './game.css';
-import Cell from './cell';
 
-export default class Game extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      game_id: 1,
-      user1:   "Maks",
-      user2:   "Kira",
-      field:   [
-                 ['X', 'O', 'X'],
-                 ['O', 'X', null],
-                 ['O', null, 'X']
-      ],
-      step:    "Maks",
-      time:    "0:0:15",
-      winner:  "Maks"
-    };
-  }
-
+export default class Game extends Component{
   render() {
-    return (
-      <div>
-        <div className="players row">
-          <div className="user1 col">{this.state.user1} X</div>
-          <div className="user2 col">{this.state.user2} O</div>
-        </div>
-        <div className="gameboard container">
-          <div className="row">
-            <Cell value={this.state.field[0][0]} />
-            <Cell value={this.state.field[0][1]} />
-            <Cell value={this.state.field[0][2]} />
-          </div>
-          <div className="row">
-            <Cell value={this.state.field[1][0]} />
-            <Cell value={this.state.field[1][1]} />
-            <Cell value={this.state.field[1][2]} />
-          </div>
-          <div className="row">
-            <Cell value={this.state.field[2][0]} />
-            <Cell value={this.state.field[2][1]} />
-            <Cell value={this.state.field[2][2]} />
-          </div>
-        </div>
-        <div className="timer">{this.state.time}</div>
+    return(
+      <div className="game">
+        <div>{this.props.user1}</div>
+        <div>{this.props.user2}</div>
+        <div>{this.props.time}</div>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './TicTacToe.css';
-import Game from './game';
+import GameList from './game-list';
 import Header from './header';
 
 export default class TicTacToe extends Component {
@@ -9,7 +9,7 @@ export default class TicTacToe extends Component {
     return (
       <div className="TicTacToe">
         <Header />
-        <Game />
+        <GameList />
       </div>
     );
   }

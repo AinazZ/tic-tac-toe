@@ -1,0 +1,9 @@
+.gameList {
+  display: flex;
+  padding-top: 20px;
+  margin: 0 -5px;
+}
+
+.user1 {
+  background: #C0C0C0;
+}
