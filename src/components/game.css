@@ -8,6 +8,10 @@
   padding: 5px;
 }
 
+.user2 {
+  border-top: solid 1px black;
+}
+
 .time {
   align-self: flex-end;
 }

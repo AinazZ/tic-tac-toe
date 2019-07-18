@@ -16,10 +16,10 @@ export default class Game extends Component{
 
     return(
       <div className="game" style={styles}>
-        <div>
+        <div className="user1">
           {this.props.user1}
         </div>
-        <div>
+        <div className="user2">
           {this.props.user2}
         </div>
         <div className="time">
