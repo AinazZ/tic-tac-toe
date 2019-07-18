@@ -58,11 +58,12 @@ export default class GameList extends Component {
     ));
 
     return (
-      <div>
+      <div className="main container">
         <input className="user"></input>
         <div className="gameList container">
           {gameItems}
         </div>
+        <button className="addGame">+</button>
       </div>
     );
   }
