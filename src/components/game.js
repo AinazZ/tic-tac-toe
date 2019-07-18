@@ -12,7 +12,7 @@ export default class Game extends Component{
         <div>
           {this.props.user2}
         </div>
-        <div>
+        <div className="time">
           {this.props.time}
         </div>
       </div>

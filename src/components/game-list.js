@@ -29,23 +29,23 @@ export default class GameList extends Component {
           field:   [
                      ['O', 'X', 'X'],
                      ['O', 'O', 'X'],
-                     ['X', null, 'O']
+                     ['X', null, null]
           ],
-          step:    null,
+          step:    "Ella",
           time:    "0:0:25",
-          winner:  "Ella"
+          winner:  null
         },
         {
           id: 3,
           user1:   "Maks",
-          user2:   "Ella",
+          user2:   null,
           field:   [
                      [null, null, null],
                      [null, null, null],
                      [null, null, null]
           ],
-          step:    "Maks",
-          time:    "0:0:5",
+          step:    null,
+          time:    null,
           winner:  null
         }
       ]
@@ -54,12 +54,12 @@ export default class GameList extends Component {
 
   render() {
     let gameItems = this.state.games.map(e => (
-      <Game user1={e.user1} user2={e.user2} time={e.time} />
+      <Game user1={e.user1} user2={e.user2} step={e.step} time={e.time} winner={e.winner} />
     ));
 
     return (
       <div>
-        <input className="user1"></input>
+        <input className="user"></input>
         <div className="gameList container">
           {gameItems}
         </div>
