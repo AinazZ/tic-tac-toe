@@ -22,19 +22,8 @@ export default class GameItem extends Component{
       return <Redirect to='/game' />;
     }
 
-    let styles = {
-      background: "#A9A9A9"
-    };
-    let step = this.props.step;
-    let winner = this.props.step;
-
-    if (winner) {
-      styles.background = "#A9A9A9"
-    }
-
     return(
       <div className="gameItem"
-           style={styles}
            onClick={() => this.gameClicked()}
       >
         <div className="user1">
