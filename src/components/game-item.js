@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import './game.css';
+import './game-item.css';
 
-export default class Game extends Component{
+export default class GameItem extends Component{
   render() {
     let styles = {
       background: "#A9A9A9"
@@ -15,7 +15,7 @@ export default class Game extends Component{
     }
 
     return(
-      <div className="game" style={styles}>
+      <div className="gameItem" style={styles}>
         <div className="user1">
           {this.props.user1}
         </div>

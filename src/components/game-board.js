@@ -7,22 +7,49 @@ export default class GameBoard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: 1,
-      user1:   "Maks",
-      user2:   "Kira",
-      field:   [
-                 ['X', 'O', 'X'],
-                 ['O', 'X', null],
-                 ['O', null, 'X']
-      ],
-      step:    "Maks",
-      time:    "0:0:15",
-      winner:  "Maks"
-    };
+    this.state = JSON.parse(localStorage.getItem('game'));
+  }
+
+  handleClick(i) {
+    const field = this.state.field.slice();
+    field[i] = this.state.step ? 'X' : 'O';
+    this.setState({field: field});
+  }
+
+  /*step() {
+    if () {
+      this.setState({ borderBottom: "2px solid" });
+    }
+  }*/
+
+  renderCell(i) {
+    return (
+      <Cell
+        value={this.state.field[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
+    let game = {
+      game_id: 1,
+      user1:   "Maks",
+      user2:   "Kira",
+      field:   [
+                 'X', 'O', 'X',
+                 'O', 'X', null,
+                 'O', null, 'X'
+      ],
+      step:    "Maks",
+      time:    "0:0:15",
+      winner:  "Maks",
+
+      borderBottom: ""
+    }
+    let json = JSON.stringify(game);
+    localStorage.setItem('game', json);
+
     return (
       <div>
         <div className="players row">
@@ -31,19 +58,19 @@ export default class GameBoard extends Component {
         </div>
         <div className="field container">
           <div className="row">
-            <Cell value={this.state.field[0][0]} />
-            <Cell value={this.state.field[0][1]} />
-            <Cell value={this.state.field[0][2]} />
+            {this.renderCell(0)}
+            {this.renderCell(1)}
+            {this.renderCell(2)}
           </div>
           <div className="row">
-            <Cell value={this.state.field[1][0]} />
-            <Cell value={this.state.field[1][1]} />
-            <Cell value={this.state.field[1][2]} />
+            {this.renderCell(3)}
+            {this.renderCell(4)}
+            {this.renderCell(5)}
           </div>
           <div className="row">
-            <Cell value={this.state.field[2][0]} />
-            <Cell value={this.state.field[2][1]} />
-            <Cell value={this.state.field[2][2]} />
+            {this.renderCell(6)}
+            {this.renderCell(7)}
+            {this.renderCell(8)}
           </div>
         </div>
         <div className="timer">{this.state.time}</div>

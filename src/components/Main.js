@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-import './TicTacToe.css';
-import GameList from './game-list';
+import './Main.css';
 import Header from './header';
+import GameList from './game-list';
 
-export default class TicTacToe extends Component {
+export default class Main extends Component {
   render() {
     return (
-      <div className="TicTacToe">
+      <div className="Main">
         <Header />
         <GameList />
       </div>

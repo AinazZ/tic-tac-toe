@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './game-list.css';
-import Game from './game';
+import GameItem from './game-item';
 
 export default class GameList extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ export default class GameList extends Component {
 
   render() {
     let gameItems = this.state.games.map(e => (
-      <Game user1={e.user1} user2={e.user2} step={e.step} time={e.time} winner={e.winner} />
+      <GameItem user1={e.user1} user2={e.user2} step={e.step} time={e.time} winner={e.winner} />
     ));
 
     return (
@@ -63,7 +63,12 @@ export default class GameList extends Component {
         <div className="gameList container">
           {gameItems}
         </div>
-        <button className="addGame">+</button>
+        <button
+          className="addGame"
+          //onClick={() =>}
+        >
+          +
+        </button>
       </div>
     );
   }
