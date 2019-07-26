@@ -1,9 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, Redirect } from 'react';
 
 import './game-item.css';
 
 export default class GameItem extends Component{
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      redirect: false
+    }
+  }
+
+  gameClicked() {
+    this.setState({redirect: true});
+  }
+
   render() {
+    const { redirect } = this.state;
+
+    if(redirect) {
+      return <Redirect to='/game' />;
+    }
+
     let styles = {
       background: "#A9A9A9"
     };
@@ -15,7 +33,10 @@ export default class GameItem extends Component{
     }
 
     return(
-      <div className="gameItem" style={styles}>
+      <div className="gameItem"
+           style={styles}
+           onClick={() => this.gameClicked()}
+      >
         <div className="user1">
           {this.props.user1}
         </div>

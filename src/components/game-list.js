@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './game-list.css';
 import GameItem from './game-item';
+import AddGame from './add-game';
 
 export default class GameList extends Component {
   constructor(props) {
@@ -63,12 +64,7 @@ export default class GameList extends Component {
         <div className="gameList container">
           {gameItems}
         </div>
-        <button
-          className="addGame"
-          //onClick={() =>}
-        >
-          +
-        </button>
+        <AddGame />
       </div>
     );
   }

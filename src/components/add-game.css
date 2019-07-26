@@ -1,0 +1,11 @@
+.addGame {
+  background-color: #2E8B57;
+  border: none;
+  color: #FFFFFF;
+  padding: 20px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100%;
+  margin-top: 150px;
+  align-self: flex-end;
+}
