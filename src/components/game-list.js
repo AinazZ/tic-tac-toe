@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
 import './game-list.css';
 import GameItem from './game-item';
-import AddGame from './add-game';
 
 export default class GameList extends Component {
   constructor(props) {
@@ -54,8 +52,8 @@ export default class GameList extends Component {
   }
 
   render() {
-    let gameItems = this.state.games.map(e => (
-      <GameItem user1={e.user1} user2={e.user2} step={e.step} time={e.time} winner={e.winner} />
+    let gameItems = this.state.games.map((game) => (
+      <GameItem key={game.id} user1={game.user1} user2={game.user2} step={game.step} time={game.time} winner={game.winner} />
     ));
 
     return (
@@ -64,7 +62,6 @@ export default class GameList extends Component {
         <div className="gameList container">
           {gameItems}
         </div>
-        <AddGame />
       </div>
     );
   }

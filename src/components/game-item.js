@@ -1,4 +1,5 @@
-import React, { Component, Redirect } from 'react';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import './game-item.css';
 
@@ -6,9 +7,8 @@ export default class GameItem extends Component{
   constructor(props) {
     super(props);
 
-    this.state = {
-      redirect: false
-    }
+    this.state = {redirect: false};
+    this.gameClicked = this.gameClicked.bind(this);
   }
 
   gameClicked() {
@@ -16,15 +16,15 @@ export default class GameItem extends Component{
   }
 
   render() {
-    const { redirect } = this.state;
+    const { redirect } = this.state.redirect;
 
     if(redirect) {
-      return <Redirect to='/game' />;
+      return <Redirect from='/' to='/game' />;
     }
 
     return(
       <div className="gameItem"
-           onClick={() => this.gameClicked()}
+           onClick={this.gameClicked}
       >
         <div className="user1">
           {this.props.user1}
