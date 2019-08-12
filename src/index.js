@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
 import './index.css';
 import Main from './components/Main';
 import Game from './components/Game';
 import * as serviceWorker from './serviceWorker';
-
-//ReactDOM.render(<Game />, document.getElementById('root'));
 
  ReactDOM.render((
   <BrowserRouter>

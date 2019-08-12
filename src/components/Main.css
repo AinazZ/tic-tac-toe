@@ -6,3 +6,21 @@
   flex-direction: column;
   background: #DCDCDC;
 }
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 20px;
+  margin: 0 -5px;
+}
+
+.user {
+  background: #C0C0C0;
+}

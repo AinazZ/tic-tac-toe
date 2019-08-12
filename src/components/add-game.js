@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import './add-game.css';
 
 export default class AddGame extends Component {
@@ -7,7 +6,7 @@ export default class AddGame extends Component {
     return (
       <button
         className="addGame"
-        //onClick={() =>}
+        onClick={() => this.props.onClick()}
       >
         +
       </button>
