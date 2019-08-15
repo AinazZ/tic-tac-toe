@@ -11,6 +11,7 @@ export default class Main extends Component {
 
     this.state = {
       redirect: false,
+      id: null,
       games: JSON.parse(localStorage.getItem('games'))
     };
   }
@@ -36,13 +37,18 @@ export default class Main extends Component {
   }
 
   showGame(id) {
-    console.log({id});
-    //this.setState({ redirect: true });
+    this.setState({
+      redirect: true,
+      id: 'id'
+    });
   }
 
   render() {
-    let { redirect } = this.state.redirect;
-    if(redirect) return <Redirect to="/game" />;
+    let redirect = this.state.redirect;
+    let id = this.state.id;
+    if(redirect) {
+      return <Redirect to="/game" />;
+    }
 
     let gamelist = [
       {
@@ -88,7 +94,7 @@ export default class Main extends Component {
     let json = JSON.stringify(gamelist);
     localStorage.setItem('games', json);
     let gameItems = this.state.games.map((game) => (
-      <GameItem key={game.id} id={game.id} user1={game.user1} user2={game.user2} step={game.step} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
+      <GameItem key={game.id} id={game.id} user1={game.user1} user2={game.user2} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
     ));
 
     return (

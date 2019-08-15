@@ -14,10 +14,10 @@ export default class GameBoard extends Component {
 
   render() {
     return (
-      <div>
+      <div className="gameBoard container">
         <div className="players row">
           <div className="user1 col">{this.props.user1} X</div>
-          <div className="user2 col">{this.props.user2} O</div>
+          <div className="user2 col">O {this.props.user2}</div>
         </div>
         <div className="field container">
           <div className="row">
@@ -36,7 +36,6 @@ export default class GameBoard extends Component {
             {this.renderCell(8)}
           </div>
         </div>
-        <div className="timer">{this.props.time}</div>
       </div>
     );
   }
