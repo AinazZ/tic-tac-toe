@@ -3,6 +3,7 @@ import './Game.css';
 import Header from './header';
 import GameBoard from './game-board';
 import Timer from './timer';
+import Surrender from './surrender';
 
 export default class Game extends Component {
   constructor(props) {
@@ -29,6 +30,10 @@ export default class Game extends Component {
     const {xIsNext, field} = this.state;
   }
 
+  surrender(){
+    console.log('Сдаюсь-сдаюсь');
+  }
+
   render() {
     const {user1, user2, field, xIsNext, time} = this.state.game;
 
@@ -38,13 +43,12 @@ export default class Game extends Component {
         <GameBoard
           user1={user1}
           user2={user2}
-          time={time}
           field={field}
           xIsNext={xIsNext}
           onClick={(i) => this.handleClick(i)}
         />
-        <div className="timer"><Timer /></div>
-        <button className="btn surrender">SURRENDER</button>
+        <Timer time={time} />
+        <Surrender onClick={this.surrender.bind(this)} />
       </div>
     );
   }

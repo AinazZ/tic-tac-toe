@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './timer.css';
 
 const INTERVAL = 100;
 
@@ -25,7 +26,7 @@ export default class Timer extends Component {
     const value = this.state.time;
 
     return (
-      <div>
+      <div className="timer">
         <span>{Math.round(value/INTERVAL/60/60)} : </span>
         <span>{Math.round(value/INTERVAL/60)} : </span>
         <span>{Math.round(value/INTERVAL)} . </span>
