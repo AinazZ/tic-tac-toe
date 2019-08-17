@@ -8,15 +8,20 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
 
-    //this.state = JSON.parse(localStorage.getItem('game'));
-
-    this.state = {
+    /*this.state = {
       user1: 'user1',
       user2: 'user2',
       field: Array(9).fill(null),
       xIsNext: true,
       time: 0,
       winner: null
+    };*/
+
+    let game_id = localStorage.getItem('game_id');
+    let games   = JSON.parse(localStorage.getItem('games'));
+
+    this.state = {
+      game: games.find(game => game.id==game_id)
     };
   }
 
@@ -25,25 +30,7 @@ export default class Game extends Component {
   }
 
   render() {
-    /*let game = {
-      game_id: 1,
-      user1:   "Maks",
-      user2:   "Kira",
-      field:   [
-                 'X', 'O', 'X',
-                 'O', 'X', null,
-                 'O', null, 'X'
-      ],
-      xIsNext: true,
-      time:    "0:0:15",
-      winner:  "Maks",
-
-      borderBottom: ""
-    };
-    let json = JSON.stringify(game);
-    localStorage.setItem('game', json);*/
-
-    const {user1, user2, field, xIsNext, time} = this.state;
+    const {user1, user2, field, xIsNext, time} = this.state.game;
 
     return (
       <div className="Game">

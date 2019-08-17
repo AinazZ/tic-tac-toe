@@ -11,7 +11,6 @@ export default class Main extends Component {
 
     this.state = {
       redirect: false,
-      id: null,
       games: JSON.parse(localStorage.getItem('games'))
     };
   }
@@ -33,20 +32,18 @@ export default class Main extends Component {
     this.state.games.push(newGame);
     let json = JSON.stringify(this.state.games);
     localStorage.setItem('games', json);
-    this.setState({games: JSON.parse(localStorage.getItem('games'))})
+    this.setState({games: JSON.parse(localStorage.getItem('games'))});
   }
 
   showGame(id) {
+    localStorage.setItem('game_id', id);
     this.setState({
-      redirect: true,
-      id: 'id'
+      redirect: true
     });
   }
 
   render() {
-    let redirect = this.state.redirect;
-    let id = this.state.id;
-    if(redirect) {
+    if(this.state.redirect) {
       return <Redirect to="/game" />;
     }
 
@@ -56,9 +53,9 @@ export default class Main extends Component {
         user1:   "Maks",
         user2:   "Kira",
         field:   [
-                   ['X', 'O', 'X'],
-                   ['O', 'X', null],
-                   ['O', null, 'X']
+                   'X', 'O', 'X',
+                   'O', 'X', null,
+                   'O', null, 'X'
         ],
         step:    null,
         time:    "0:0:15",
@@ -69,9 +66,9 @@ export default class Main extends Component {
         user1:   "Tony",
         user2:   "Ella",
         field:   [
-                   ['O', 'X', 'X'],
-                   ['O', 'O', 'X'],
-                   ['X', null, null]
+                   'O', 'X', 'X',
+                   'O', 'O', 'X',
+                   'X', null, null
         ],
         step:    "Ella",
         time:    "0:0:25",
@@ -82,9 +79,9 @@ export default class Main extends Component {
         user1:   "Maks",
         user2:   null,
         field:   [
-                   [null, null, null],
-                   [null, null, null],
-                   [null, null, null]
+                   null, null, null,
+                   null, null, null,
+                   null, null, null
         ],
         step:    null,
         time:    null,
