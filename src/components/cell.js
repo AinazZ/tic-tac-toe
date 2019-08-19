@@ -7,6 +7,7 @@ export default class Cell extends Component {
       <button
         className="cell col"
         onClick={() => this.props.onClick()}
+        disabled={this.props.disabled}
       >
         {this.props.value}
       </button>

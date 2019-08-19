@@ -7,6 +7,7 @@ export default class Surrender extends Component {
       <button
         className="btn surrender"
         onClick={() => this.props.onClick()}
+        disabled={this.props.disabled}
       >
         SURRENDER
       </button>

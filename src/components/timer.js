@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
 import './timer.css';
 
-const INTERVAL = 100;
-
 export default class Timer extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {time: 0};
-  }
+    this.timer = null;
 
-  increment(){
-      this.setState({time: this.state.time + 1});
+    this.state = {
+      time: 0
+    };
   }
 
   componentDidMount() {
-    this.timerID = setInterval(() => this.increment(), 1000/INTERVAL);
+    this.timer = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  tick(){
+    this.setState({
+      time: this.state.time + 1
+    });
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval(this.timer);
   }
 
   render() {
-    const value = this.state.time;
+    let time = this.state.time;
 
     return (
       <div className="timer">
-        <span>{Math.round(value/INTERVAL/60/60)} : </span>
-        <span>{Math.round(value/INTERVAL/60)} : </span>
-        <span>{Math.round(value/INTERVAL)} . </span>
-        <span>{value % INTERVAL}</span>
+        <span>{Math.floor(time/60/60)} : </span>
+        <span>{Math.floor(time/60)} : </span>
+        <span>{Math.floor(time%60)}</span>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect }         from 'react-router-dom';
 import './Game.css';
-import Header from './header';
+import Header    from './header';
 import GameBoard from './game-board';
-import Timer from './timer';
+import Timer     from './timer';
 import Surrender from './surrender';
 
 export default class Game extends Component {
@@ -22,8 +23,37 @@ export default class Game extends Component {
     let games   = JSON.parse(localStorage.getItem('games'));
 
     this.state = {
-      game: games.find(game => game.id==game_id)
+      redirect: false,
+      game:     games.find(game => game.id==game_id)
     };
+  }
+
+  render() {
+    if(this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+
+    const {user1, user2, field, xIsNext, time, winner} = this.state.game;
+    let disabled = winner ? true : false;
+
+    return (
+      <div className="Game">
+        <Header />
+        <GameBoard
+          player1={user1}
+          player2={user2}
+          field={field}
+          xIsNext={xIsNext}
+          onClick={(i) => this.handleClick(i)}
+          disabled={disabled}
+        />
+        <Timer time={time} />
+        <Surrender
+          onClick={this.surrender.bind(this)}
+          disabled={disabled}
+        />
+      </div>
+    );
   }
 
   handleClick(i) {
@@ -31,25 +61,8 @@ export default class Game extends Component {
   }
 
   surrender(){
-    console.log('Сдаюсь-сдаюсь');
-  }
-
-  render() {
-    const {user1, user2, field, xIsNext, time} = this.state.game;
-
-    return (
-      <div className="Game">
-        <Header />
-        <GameBoard
-          user1={user1}
-          user2={user2}
-          field={field}
-          xIsNext={xIsNext}
-          onClick={(i) => this.handleClick(i)}
-        />
-        <Timer time={time} />
-        <Surrender onClick={this.surrender.bind(this)} />
-      </div>
-    );
+    this.setState({
+      redirect: true
+    });
   }
 }

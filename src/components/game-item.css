@@ -6,13 +6,32 @@
   width: 100px;
   margin: 0 5px;
   padding: 5px;
+}
+
+.open {
+  color: #FFFFFF;
+  background: #808080;
+}
+
+.in-progress {
+  color: #FFFFFF;
   background: #A9A9A9;
 }
 
-.user2 {
-  border-top: solid 1px black;
+.finished {
+  background: #C0C0C0;
+}
+
+.user1 {
+  padding-bottom: 10px;
+  border-bottom: solid 1px black;
+}
+
+.winner {
+  color: #D2691E;
 }
 
 .time {
+  color: #000000;
   align-self: flex-end;
 }
