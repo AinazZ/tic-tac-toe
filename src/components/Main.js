@@ -9,10 +9,14 @@ export default class Main extends Component {
   constructor() {
     super();
 
+    let games = JSON.parse(localStorage.getItem('games'));
+
     this.state = {
       redirect: false,
-      games:    JSON.parse(localStorage.getItem('games'))
+      games:    games
     };
+
+    this.addGame = this.addGame.bind(this);
   }
 
   render() {
@@ -31,7 +35,8 @@ export default class Main extends Component {
                    'O', 'X', null,
                    'O', null, 'X'
         ],
-        step:    null,
+        xIsNext: null,
+        step:    7,
         time:    "0:0:15",
         winner:  "Maks"
       },
@@ -45,7 +50,8 @@ export default class Main extends Component {
                    'O', 'O', 'X',
                    'X', null, null
         ],
-        step:    "Ella",
+        xIsNext: false,
+        step:    8,
         time:    "0:0:25",
         winner:  null
       },
@@ -59,13 +65,15 @@ export default class Main extends Component {
                    null, null, null,
                    null, null, null
         ],
-        step:    null,
+        xIsNext: null,
+        step:    0,
         time:    null,
         winner:  null
       }
     ];
     let json = JSON.stringify(gamelist);
     localStorage.setItem('games', json);
+
     let gameItems = this.state.games.map((game) => (
       <GameItem key={game.id} id={game.id} status={game.status} user1={game.user1} user2={game.user2} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
     ));
@@ -83,14 +91,17 @@ export default class Main extends Component {
           <div className="gameList container">
             {gameItems}
           </div>
-          <AddGame onClick={this.addGame.bind(this)}/>
+          <AddGame onClick={this.addGame}/>
         </div>
       </div>
     );
   }
 
   showGame(id) {
-    localStorage.setItem('game_id', id);
+    let userName=this.user.value;
+    JSON.stringify(localStorage.setItem('user', userName));
+    JSON.stringify(localStorage.setItem('game_id', id));
+
     this.setState({
       redirect: true
     });
@@ -98,13 +109,13 @@ export default class Main extends Component {
 
   addGame() {
     let newGame = {
-      id: 4,
+      id: 1,
       user1: this.user.value,
       user2: null,
       field: [
-               [null, null, null],
-               [null, null, null],
-               [null, null, null]
+               null, null, null,
+               null, null, null,
+               null, null, null
       ],
       step: null,
       time: null,

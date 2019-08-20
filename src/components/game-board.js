@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './game-board.css';
-import Cell from './cell';
+import Cell  from './cell';
+import Timer from './timer';
 
 export default class GameBoard extends Component {
   renderCell(i) {
@@ -8,7 +9,6 @@ export default class GameBoard extends Component {
       <Cell
         value={this.props.field[i]}
         onClick={() => this.props.onClick(i)}
-        disabled={this.props.disabled}
       />
     );
   }
@@ -17,8 +17,12 @@ export default class GameBoard extends Component {
     return (
       <div className="gameBoard container">
         <div className="players row">
-          <div className="player1 col">{this.props.player1} X</div>
-          <div className="player2 col">O {this.props.player2}</div>
+          <div className="player1 col">
+            {this.props.player1} X
+          </div>
+          <div className="player2 col">
+            O {this.props.player2}
+          </div>
         </div>
         <div className="field container">
           <div className="row">
@@ -37,6 +41,7 @@ export default class GameBoard extends Component {
             {this.renderCell(8)}
           </div>
         </div>
+        <Timer time={this.props.time} />
       </div>
     );
   }

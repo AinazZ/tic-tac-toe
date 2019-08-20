@@ -1,4 +1,4 @@
-function calculateWinner(field) {
+export default function calculateWinner(field) {
  // в массиве собраны все выигрышные компбинации
   const lines = [
     [0, 1, 2],
@@ -18,5 +18,4 @@ function calculateWinner(field) {
     }
   }
   return null;
-
 }

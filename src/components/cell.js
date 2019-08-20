@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './cell.css';
 
-export default class Cell extends Component {
-  render() {
-    return (
-      <button
-        className="cell col"
-        onClick={() => this.props.onClick()}
-        disabled={this.props.disabled}
-      >
-        {this.props.value}
-      </button>
-    );
-  }
+export default function Cell(props) {
+  return (
+    <button
+      className="cell col"
+      onClick={() => props.onClick()}
+    >
+      {props.value}
+    </button>
+  );
 }

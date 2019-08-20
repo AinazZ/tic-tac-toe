@@ -1,13 +1,13 @@
 import React from 'react';
-import './add-game.css';
+import './back.css';
 
-export default function AddGame(props) {
+export default function Back(props) {
   return (
     <button
-      className="addGame"
+      className="btn back"
       onClick={() => props.onClick()}
     >
-      +
+      BACK
     </button>
   );
 }
