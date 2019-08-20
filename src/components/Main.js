@@ -5,18 +5,70 @@ import Header   from './header';
 import GameItem from './game-item';
 import AddGame  from './add-game';
 
+let gamelist = [
+  {
+    id:      1,
+    status:  "finished",
+    user1:   "Maks",
+    user2:   "Kira",
+    field:   [
+               'X', 'O', 'X',
+               'O', 'X', null,
+               'O', null, 'X'
+             ],
+    xIsNext: null,
+    step:    7,
+    time:    "0:0:15",
+    winner:  "Maks"
+  },
+  {
+    id:      2,
+    status:  "in-progress",
+    user1:   "Tony",
+    user2:   "Ella",
+    field:   [
+               'O', 'X', 'X',
+               'O', 'O', 'X',
+               'X', null, null
+             ],
+    xIsNext: false,
+    step:    8,
+    time:    "0:0:25",
+    winner:  null
+  },
+  {
+    id:      3,
+    status:  "open",
+    user1:   "Maks",
+    user2:   "",
+    field:   [
+               null, null, null,
+               null, null, null,
+               null, null, null
+    ],
+    xIsNext: true,
+    step:    0,
+    time:    null,
+    winner:  ""
+  }
+];
+let json     = JSON.stringify(gamelist);
+localStorage.setItem('games', json);
+
 export default class Main extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     let games = JSON.parse(localStorage.getItem('games'));
 
     this.state = {
       redirect: false,
+      user:     '',
       games:    games
     };
 
-    this.addGame = this.addGame.bind(this);
+    this.showGame = this.showGame.bind(this);
+    this.addGame  = this.addGame.bind(this);
   }
 
   render() {
@@ -24,57 +76,17 @@ export default class Main extends Component {
       return <Redirect to="/game" />;
     }
 
-    let gamelist = [
-      {
-        id: 1,
-        status: "finished",
-        user1:   "Maks",
-        user2:   "Kira",
-        field:   [
-                   'X', 'O', 'X',
-                   'O', 'X', null,
-                   'O', null, 'X'
-        ],
-        xIsNext: null,
-        step:    7,
-        time:    "0:0:15",
-        winner:  "Maks"
-      },
-      {
-        id: 2,
-        status: "in-progress",
-        user1:   "Tony",
-        user2:   "Ella",
-        field:   [
-                   'O', 'X', 'X',
-                   'O', 'O', 'X',
-                   'X', null, null
-        ],
-        xIsNext: false,
-        step:    8,
-        time:    "0:0:25",
-        winner:  null
-      },
-      {
-        id: 3,
-        status: "open",
-        user1:   "Maks",
-        user2:   null,
-        field:   [
-                   null, null, null,
-                   null, null, null,
-                   null, null, null
-        ],
-        xIsNext: null,
-        step:    0,
-        time:    null,
-        winner:  null
+    let games = this.state.games.sort(function (a,b) {
+      if (b.status > a.status) {
+        return 1;
       }
-    ];
-    let json = JSON.stringify(gamelist);
-    localStorage.setItem('games', json);
-
-    let gameItems = this.state.games.map((game) => (
+      if (b.status < a.status) {
+        return -1;
+      }
+      return 0;
+    });
+    console.log(games);
+    let gameItems = games.map((game) => (
       <GameItem key={game.id} id={game.id} status={game.status} user1={game.user1} user2={game.user2} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
     ));
 
@@ -91,7 +103,7 @@ export default class Main extends Component {
           <div className="gameList container">
             {gameItems}
           </div>
-          <AddGame onClick={this.addGame}/>
+          <AddGame onClick={this.addGame} />
         </div>
       </div>
     );
@@ -108,22 +120,24 @@ export default class Main extends Component {
   }
 
   addGame() {
+    let length = this.state.games.length;
     let newGame = {
-      id: 1,
+      id: length + 1,
+      status: 'open',
       user1: this.user.value,
-      user2: null,
+      user2: "",
       field: [
                null, null, null,
                null, null, null,
                null, null, null
       ],
-      step: null,
+      xIsNext: true,
+      step: 0,
       time: null,
-      winner: null
+      winner: ""
     };
     this.state.games.push(newGame);
-    let json = JSON.stringify(this.state.games);
-    localStorage.setItem('games', json);
+    localStorage.setItem('games', JSON.stringify(this.state.games));
     this.setState({games: JSON.parse(localStorage.getItem('games'))});
   }
 }
