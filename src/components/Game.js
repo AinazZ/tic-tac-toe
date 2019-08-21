@@ -10,21 +10,13 @@ export default class Game extends Component {
   constructor(props) {
     super(props);
 
-    /*this.state = {
-      user1: 'user1',
-      user2: 'user2',
-      field: Array(9).fill(null),
-      xIsNext: true,
-      time: 0,
-      winner: null
-    };*/
-
     let user    = localStorage.getItem('user');
     let game_id = localStorage.getItem('game_id');
     let games   = JSON.parse(localStorage.getItem('games'));
 
     this.state = {
       redirect: false,
+      disabled: false,
       game:     games.find(game => game.id==game_id)
     };
 
@@ -36,15 +28,17 @@ export default class Game extends Component {
       return <Redirect to="/" />;
     }
 
-    let {status, user1, user2, field, xIsNext, step, time, winner} = this.state.game;
+    const {status, user1, user2, field, xIsNext, time} = this.state.game;
 
     let button = null;
-    if(winner) {
+    if(status === "finished") {
       button = <Back onClick={this.leaveTheGame} />;
     }
     else {
       button = <Surrender onClick={this.leaveTheGame} />;
     }
+
+    const winner = calculateWinner(field);
 
     return (
       <div className="Game">
@@ -55,15 +49,30 @@ export default class Game extends Component {
           field={field}
           xIsNext={xIsNext}
           time={time}
+          disabled={this.state.disabled}
           onClick={(i) => this.handleClick(i)}
-        />
+        >
+        </GameBoard>
         {button}
       </div>
     );
   }
 
   handleClick(i) {
-    console.log(i);
+    const field = this.state.game.field.slice();
+    if(calculateWinner(field) || field[i]) {
+      return;
+    }
+    field[i] = this.state.game.xIsNext ? "X" : "O";
+    this.setState({
+      game: {
+        status: "in-progress",
+        user1: this.state.game.user1,
+        user2: this.state.game.user2,
+        field: field,
+        xIsNext: !this.state.game.xIsNext
+      }
+    });
   }
 
   leaveTheGame(){
@@ -71,4 +80,24 @@ export default class Game extends Component {
       redirect: true
     });
   }
+}
+
+function calculateWinner(field) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (field[a] && field[a] === field[b] && field[a] === field[c]) {
+      return field[a];
+    }
+  }
+  return null;
 }

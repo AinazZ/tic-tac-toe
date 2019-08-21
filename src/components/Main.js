@@ -17,7 +17,6 @@ let gamelist = [
                'O', null, 'X'
              ],
     xIsNext: null,
-    step:    7,
     time:    "0:0:15",
     winner:  "Maks"
   },
@@ -32,22 +31,16 @@ let gamelist = [
                'X', null, null
              ],
     xIsNext: false,
-    step:    8,
     time:    "0:0:25",
-    winner:  null
+    winner:  ""
   },
   {
     id:      3,
     status:  "open",
     user1:   "Maks",
     user2:   "",
-    field:   [
-               null, null, null,
-               null, null, null,
-               null, null, null
-    ],
+    field:   Array(9).fill(null),
     xIsNext: true,
-    step:    0,
     time:    null,
     winner:  ""
   }
@@ -85,7 +78,6 @@ export default class Main extends Component {
       }
       return 0;
     });
-    console.log(games);
     let gameItems = games.map((game) => (
       <GameItem key={game.id} id={game.id} status={game.status} user1={game.user1} user2={game.user2} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
     ));
@@ -126,13 +118,8 @@ export default class Main extends Component {
       status: 'open',
       user1: this.user.value,
       user2: "",
-      field: [
-               null, null, null,
-               null, null, null,
-               null, null, null
-      ],
+      field: Array(9).fill(null),
       xIsNext: true,
-      step: 0,
       time: null,
       winner: ""
     };

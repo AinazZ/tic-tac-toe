@@ -8,6 +8,7 @@ export default class GameBoard extends Component {
     return (
       <Cell
         value={this.props.field[i]}
+        disabled={this.props.disabled}
         onClick={() => this.props.onClick(i)}
       />
     );
