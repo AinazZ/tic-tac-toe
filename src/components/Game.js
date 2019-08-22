@@ -20,6 +20,7 @@ export default class Game extends Component {
       game:     games.find(game => game.id==game_id)
     };
 
+    this.surrender    = this.surrender.bind(this);
     this.leaveTheGame = this.leaveTheGame.bind(this);
   }
 
@@ -28,17 +29,20 @@ export default class Game extends Component {
       return <Redirect to="/" />;
     }
 
-    const {status, user1, user2, field, xIsNext, time} = this.state.game;
+    let {status, user1, user2, field, xIsNext, time} = this.state.game;
+    const winner = calculateWinner(field);
+
+    if(winner) {
+      status = "finished";
+    }
 
     let button = null;
     if(status === "finished") {
-      button = <Back onClick={this.leaveTheGame} />;
+      button = <Back onClick={this.surrender} />;
     }
     else {
       button = <Surrender onClick={this.leaveTheGame} />;
     }
-
-    const winner = calculateWinner(field);
 
     return (
       <div className="Game">
@@ -72,6 +76,19 @@ export default class Game extends Component {
         field: field,
         xIsNext: !this.state.game.xIsNext
       }
+    });
+  }
+
+  surrender(){
+    this.setState({
+      game: {
+        status: "finished",
+        winner: this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1
+      }
+    });
+    console.log(this.state.game.winner);
+    this.setState({
+      redirect: true
     });
   }
 
