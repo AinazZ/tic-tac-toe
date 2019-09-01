@@ -7,7 +7,8 @@ export default class GameItem extends Component{
 
     let user1Class = "player";
     let user2Class = "player";
-    if(status==="finished") {
+    const STATUS_FINISHED = "finished";
+    if(status===STATUS_FINISHED) {
       if(user1===winner) {
         user1Class = "winner";
       }
@@ -19,7 +20,7 @@ export default class GameItem extends Component{
     return(
       <div
         className={"gameItem " + status}
-        onClick={() => this.props.onClick()}
+        onClick={this.props.onClick}
       >
         <div className={"user1 " + user1Class}>
           {user1}

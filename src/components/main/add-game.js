@@ -1,11 +1,11 @@
 import React from 'react';
 import './add-game.css';
 
-export default function AddGame(props) {
+export default function addGame(props) {
   return (
     <button
       className="addGame"
-      onClick={() => props.onClick()}
+      onClick={props.onClick}
     >
       +
     </button>

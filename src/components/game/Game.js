@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { Redirect }         from 'react-router-dom';
 import './Game.css';
-import Header    from './header';
+import Header    from '../common/header';
 import GameBoard from './game-board';
 import Surrender from './surrender';
 import Back      from './back';
+import Storage   from '../storage/storage';
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
 
-    let user    = localStorage.getItem('user');
-    let game_id = localStorage.getItem('game_id');
-    let games   = JSON.parse(localStorage.getItem('games'));
+    let storage = new Storage();
+    let user    = storage.get('user');
+    let game_id = storage.get('game_id');
+    let games   = storage.get('games');
 
     this.state = {
       redirect: false,
@@ -37,7 +39,8 @@ export default class Game extends Component {
     }
 
     let button = null;
-    if(status === "finished") {
+    const STATUS_FINISHED = "finished";
+    if(status === STATUS_FINISHED) {
       button = <Back onClick={this.surrender} />;
     }
     else {

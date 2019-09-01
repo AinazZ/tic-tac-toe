@@ -1,58 +1,21 @@
 import React, { Component } from 'react';
 import { Redirect }         from 'react-router-dom';
 import './Main.css';
-import Header   from './header';
+import Header   from '../common/header';
 import GameItem from './game-item';
 import AddGame  from './add-game';
+import Storage  from '../storage/storage';
+import gamelist from './game-items';
 
-let gamelist = [
-  {
-    id:      1,
-    status:  "finished",
-    user1:   "Maks",
-    user2:   "Kira",
-    field:   [
-               'X', 'O', 'X',
-               'O', 'X', null,
-               'O', null, 'X'
-             ],
-    xIsNext: null,
-    time:    "0:0:15",
-    winner:  "Maks"
-  },
-  {
-    id:      2,
-    status:  "in-progress",
-    user1:   "Tony",
-    user2:   "Ella",
-    field:   [
-               'O', 'X', 'X',
-               'O', 'O', 'X',
-               'X', null, null
-             ],
-    xIsNext: false,
-    time:    "0:0:25",
-    winner:  ""
-  },
-  {
-    id:      3,
-    status:  "open",
-    user1:   "Maks",
-    user2:   "",
-    field:   Array(9).fill(null),
-    xIsNext: true,
-    time:    null,
-    winner:  ""
-  }
-];
-let json     = JSON.stringify(gamelist);
-localStorage.setItem('games', json);
+let storage = new Storage();
+storage.set('games',gamelist);
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
 
-    let games = JSON.parse(localStorage.getItem('games'));
+    let storage = new Storage();
+    let games = storage.get('games');
 
     this.state = {
       redirect: false,
@@ -102,9 +65,10 @@ export default class Main extends Component {
   }
 
   showGame(id) {
-    let userName=this.user.value;
-    JSON.stringify(localStorage.setItem('user', userName));
-    JSON.stringify(localStorage.setItem('game_id', id));
+    let userName = this.user.value;
+    let storage = new Storage();
+    storage.set('user',userName);
+    storage.set('game_id', id);
 
     this.setState({
       redirect: true
@@ -124,7 +88,10 @@ export default class Main extends Component {
       winner: ""
     };
     this.state.games.push(newGame);
-    localStorage.setItem('games', JSON.stringify(this.state.games));
-    this.setState({games: JSON.parse(localStorage.getItem('games'))});
+    let storage = new Storage();
+    storage.set('games',this.state.games);
+    this.setState({
+      games: storage.get('games')
+    });
   }
 }
