@@ -1,7 +1,7 @@
 import React from 'react';
 import './add-game.css';
 
-export default function addGame(props) {
+export default function AddGame(props) {
   return (
     <button
       className="addGame"

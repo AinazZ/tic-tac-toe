@@ -1,7 +1,7 @@
 import React from 'react';
 import './cell.css';
 
-export default function cell(props) {
+export default function Cell(props) {
   return (
     <button
       className="cell col"

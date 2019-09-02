@@ -1,7 +1,7 @@
 import React from 'react';
 import './back.css';
 
-export default function back(props) {
+export default function Back(props) {
   return (
     <button
       className="btn back"

@@ -1,7 +1,7 @@
 import React from 'react';
 import './surrender.css';
 
-export default function surrender(props) {
+export default function Surrender(props) {
   return (
     <button
       className="btn surrender"
