@@ -3,17 +3,16 @@ import './game-item.css';
 
 export default class GameItem extends Component{
   render() {
-    let {status, user1, user2, time, winner} = this.props;
+    let {status, user1, user2, time, winner} = this.props.game;
 
-    let user1Class = "player";
-    let user2Class = "player";
-    const STATUS_FINISHED = "finished";
+    let user1Class = USER_PLAYER;
+    let user2Class = USER_PLAYER;
     if(status===STATUS_FINISHED) {
       if(user1===winner) {
-        user1Class = "winner";
+        user1Class = USER_WINNER;
       }
       else {
-        user2Class = "winner";
+        user2Class = USER_WINNER;
       }
     }
 
@@ -35,3 +34,7 @@ export default class GameItem extends Component{
     );
   }
 }
+
+const STATUS_FINISHED = "finished";
+const USER_PLAYER     = "player";
+const USER_WINNER     = "winner";

@@ -5,17 +5,14 @@ import Header   from '../common/header';
 import GameItem from './game-item';
 import AddGame  from './add-game';
 import Storage  from '../storage/storage';
-import gamelist from './game-items';
-
-let storage = new Storage();
-storage.set('games',gamelist);
+import NewGame  from './new-game';
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
 
     let storage = new Storage();
-    let games = storage.get('games');
+    let games = storage.get(GAMES);
 
     this.state = {
       redirect: false,
@@ -42,7 +39,11 @@ export default class Main extends Component {
       return 0;
     });
     let gameItems = games.map((game) => (
-      <GameItem key={game.id} id={game.id} status={game.status} user1={game.user1} user2={game.user2} time={game.time} winner={game.winner} onClick={(id) => this.showGame(game.id)} />
+      <GameItem
+        key={game.id}
+        game={game}
+        onClick={(id) => this.showGame(game.id)}
+      />
     ));
 
     return (
@@ -67,8 +68,8 @@ export default class Main extends Component {
   showGame(id) {
     let userName = this.user.value;
     let storage = new Storage();
-    storage.set('user',userName);
-    storage.set('game_id', id);
+    storage.set(USER,userName);
+    storage.set(GAME_ID, id);
 
     this.setState({
       redirect: true
@@ -77,21 +78,17 @@ export default class Main extends Component {
 
   addGame() {
     let length = this.state.games.length;
-    let newGame = {
-      id: length + 1,
-      status: 'open',
-      user1: this.user.value,
-      user2: "",
-      field: Array(9).fill(null),
-      xIsNext: true,
-      time: null,
-      winner: ""
-    };
+    let newGame = new NewGame(length, this.user.value);
+
     this.state.games.push(newGame);
     let storage = new Storage();
-    storage.set('games',this.state.games);
+    storage.set(GAMES,this.state.games);
     this.setState({
-      games: storage.get('games')
+      games: storage.get(GAMES)
     });
   }
 }
+
+const GAMES   = 'games';
+const USER    = 'user';
+const GAME_ID = 'game_id';

@@ -12,15 +12,22 @@ export default class Game extends Component {
     super(props);
 
     let storage = new Storage();
-    let user    = storage.get('user');
-    let game_id = storage.get('game_id');
-    let games   = storage.get('games');
+    let game_id = storage.get(GAME_ID);
+    let games   = storage.get(GAMES);
 
     this.state = {
       redirect: false,
       disabled: false,
       game:     games.find(game => game.id==game_id)
     };
+
+    setInterval(() => {
+      let storage = new Storage();
+      let games = storage.get(GAMES);
+      this.setState({
+        game: games.find(game => game.id==game_id)
+      });
+    }, INTERVAL);
 
     this.surrender    = this.surrender.bind(this);
     this.leaveTheGame = this.leaveTheGame.bind(this);
@@ -34,17 +41,15 @@ export default class Game extends Component {
     let {status, user1, user2, field, xIsNext, time} = this.state.game;
     const winner = calculateWinner(field);
 
-    if(winner) {
-      status = "finished";
-    }
+    let button  = null;
+    let storage = new Storage();
+    let user    = storage.get(USER);
 
-    let button = null;
-    const STATUS_FINISHED = "finished";
-    if(status === STATUS_FINISHED) {
-      button = <Back onClick={this.surrender} />;
+    if(user != user1 || user !=user2 || status === STATUS_FINISHED) {
+      button = <Back onClick={this.leaveTheGame} />;
     }
     else {
-      button = <Surrender onClick={this.leaveTheGame} />;
+      button = <Surrender onClick={this.surrender} />;
     }
 
     return (
@@ -68,29 +73,55 @@ export default class Game extends Component {
   handleClick(i) {
     const field = this.state.game.field.slice();
     if(calculateWinner(field) || field[i]) {
+      let game_id = this.state.game.id;
+      let storage = new Storage();
+      let games   = storage.get(GAMES);
+
+      let game = games.find(game => game.id==game_id);
+      game.status  = STATUS_FINISHED;
+      game.field   = field;
+      game.winner  = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
+
+      storage.set(GAMES, games);
+
+      this.setState({
+        game:     game,
+        redirect: true
+      });
+
       return;
     }
     field[i] = this.state.game.xIsNext ? "X" : "O";
+
+    let game_id = this.state.game.id;
+    let storage = new Storage();
+    let games   = storage.get(GAMES);
+
+    let game = games.find(game => game.id==game_id);
+    game.status  = STATUS_IN_PROGRESS;
+    game.field   = field;
+    game.xIsNext = !this.state.game.xIsNext;
+
+    storage.set(GAMES, games);
+
     this.setState({
-      game: {
-        status: "in-progress",
-        user1: this.state.game.user1,
-        user2: this.state.game.user2,
-        field: field,
-        xIsNext: !this.state.game.xIsNext
-      }
+      game: game
     });
   }
 
   surrender(){
+    let game_id = this.state.game.id;
+    let storage = new Storage();
+    let games   = storage.get(GAMES);
+
+    let game = games.find(game => game.id==game_id);
+    game.status = STATUS_FINISHED;
+    game.winner = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
+
+    storage.set(GAMES, games);
+
     this.setState({
-      game: {
-        status: "finished",
-        winner: this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1
-      }
-    });
-    console.log(this.state.game.winner);
-    this.setState({
+      game: game,
       redirect: true
     });
   }
@@ -121,3 +152,10 @@ function calculateWinner(field) {
   }
   return null;
 }
+
+const STATUS_IN_PROGRESS = "in-progress";
+const STATUS_FINISHED    = "finished";
+const GAMES              = 'games';
+const USER               = 'user';
+const GAME_ID            = 'game_id';
+const INTERVAL           = 2000;
