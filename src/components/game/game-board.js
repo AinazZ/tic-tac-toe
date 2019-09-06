@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './game-board.css';
 import Cell  from './cell';
-import Timer from './timer';
 
 export default class GameBoard extends Component {
   renderCell(i) {
@@ -42,7 +41,6 @@ export default class GameBoard extends Component {
             {this.renderCell(8)}
           </div>
         </div>
-        <Timer time={this.props.time} />
       </div>
     );
   }

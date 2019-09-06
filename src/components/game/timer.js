@@ -5,27 +5,9 @@ export default class Timer extends Component {
   constructor(props) {
     super(props);
 
-    this.timer = null;
-
     this.state = {
-      time: 0
+      time: this.props.time
     };
-  }
-
-  componentDidMount() {
-    this.timer = setInterval(() => {
-      this.tick();
-    }, 1000);
-  }
-
-  tick(){
-    this.setState({
-      time: this.state.time + 1
-    });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
   }
 
   render() {
@@ -33,9 +15,9 @@ export default class Timer extends Component {
 
     return (
       <div className="timer">
-        <span>{Math.floor(time/60/60)} : </span>
-        <span>{Math.floor(time/60)} : </span>
-        <span>{Math.floor(time%60)}</span>
+        <span>{Math.floor(time/1000/60/60)} : </span>
+        <span>{Math.floor(time/1000/60)} : </span>
+        <span>{Math.floor(time/1000)}</span>
       </div>
     );
   }

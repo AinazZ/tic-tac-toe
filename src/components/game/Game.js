@@ -3,6 +3,7 @@ import { Redirect }         from 'react-router-dom';
 import './Game.css';
 import Header    from '../common/header';
 import GameBoard from './game-board';
+import Timer     from './timer';
 import Surrender from './surrender';
 import Back      from './back';
 import Storage   from '../storage/storage';
@@ -21,16 +22,23 @@ export default class Game extends Component {
       game:     games.find(game => game.id==game_id)
     };
 
-    setInterval(() => {
+    this.timer = null;
+
+    this.storage = setInterval(() => {
       let storage = new Storage();
       let games = storage.get(GAMES);
       this.setState({
         game: games.find(game => game.id==game_id)
       });
-    }, INTERVAL);
+    }, STORAGE_INTERVAL);
 
     this.surrender    = this.surrender.bind(this);
     this.leaveTheGame = this.leaveTheGame.bind(this);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    clearInterval(this.storage);
   }
 
   render() {
@@ -45,10 +53,18 @@ export default class Game extends Component {
     let storage = new Storage();
     let user    = storage.get(USER);
 
-    if(user != user1 || user !=user2 || status === STATUS_FINISHED) {
+    if((user !== user1 && user !== user2) || status === STATUS_FINISHED) {
+/*      this.setState({
+        disabled: true
+      });*/
       button = <Back onClick={this.leaveTheGame} />;
     }
     else {
+      this.timer = setInterval(() => {
+        this.setState({
+          time: time + 1
+        });
+      }, 1);
       button = <Surrender onClick={this.surrender} />;
     }
 
@@ -60,11 +76,11 @@ export default class Game extends Component {
           player2={user2}
           field={field}
           xIsNext={xIsNext}
-          time={time}
           disabled={this.state.disabled}
           onClick={(i) => this.handleClick(i)}
         >
         </GameBoard>
+        <Timer time={time} />
         {button}
       </div>
     );
@@ -72,25 +88,6 @@ export default class Game extends Component {
 
   handleClick(i) {
     const field = this.state.game.field.slice();
-    if(calculateWinner(field) || field[i]) {
-      let game_id = this.state.game.id;
-      let storage = new Storage();
-      let games   = storage.get(GAMES);
-
-      let game = games.find(game => game.id==game_id);
-      game.status  = STATUS_FINISHED;
-      game.field   = field;
-      game.winner  = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
-
-      storage.set(GAMES, games);
-
-      this.setState({
-        game:     game,
-        redirect: true
-      });
-
-      return;
-    }
     field[i] = this.state.game.xIsNext ? "X" : "O";
 
     let game_id = this.state.game.id;
@@ -98,14 +95,39 @@ export default class Game extends Component {
     let games   = storage.get(GAMES);
 
     let game = games.find(game => game.id==game_id);
-    game.status  = STATUS_IN_PROGRESS;
-    game.field   = field;
-    game.xIsNext = !this.state.game.xIsNext;
+      game.status  = STATUS_IN_PROGRESS;
+      game.field   = field;
+      game.xIsNext = !this.state.game.xIsNext;
+      game.time    = this.state.game.time;
 
     storage.set(GAMES, games);
 
     this.setState({
       game: game
+    });
+
+    if(calculateWinner(field)) {
+      let game_id = this.state.game.id;
+      let storage = new Storage();
+      let games   = storage.get(GAMES);
+
+      let game = games.find(game => game.id==game_id);
+        game.status  = STATUS_FINISHED;
+        game.time = this.state.game.time;
+        game.winner  = this.state.game.xIsNext ? this.state.game.user1 : this.state.game.user2;
+
+      storage.set(GAMES, games);
+
+      this.setState({
+        game:     game,
+        redirect: true
+      });
+    }
+  }
+
+  tick(){
+    this.setState({
+      time: this.state.time + 1
     });
   }
 
@@ -115,8 +137,9 @@ export default class Game extends Component {
     let games   = storage.get(GAMES);
 
     let game = games.find(game => game.id==game_id);
-    game.status = STATUS_FINISHED;
-    game.winner = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
+      game.status = STATUS_FINISHED;
+      game.time = this.state.game.time;
+      game.winner = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
 
     storage.set(GAMES, games);
 
@@ -158,4 +181,4 @@ const STATUS_FINISHED    = "finished";
 const GAMES              = 'games';
 const USER               = 'user';
 const GAME_ID            = 'game_id';
-const INTERVAL           = 2000;
+const STORAGE_INTERVAL   = 2000;
