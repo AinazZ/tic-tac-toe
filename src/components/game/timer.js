@@ -15,9 +15,9 @@ export default class Timer extends Component {
 
     return (
       <div className="timer">
-        <span>{Math.floor(time/1000/60/60)} : </span>
-        <span>{Math.floor(time/1000/60)} : </span>
-        <span>{Math.floor(time/1000)}</span>
+        <span>{Math.floor(time/60/60)} : </span>
+        <span>{Math.floor(time/60)} : </span>
+        <span>{Math.floor(time%60)}</span>
       </div>
     );
   }

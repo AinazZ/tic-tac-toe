@@ -22,15 +22,16 @@ export default class Game extends Component {
       game:     games.find(game => game.id==game_id)
     };
 
-    this.timer = null;
-
-    this.storage = setInterval(() => {
+    this.timer = setInterval(() => {
       let storage = new Storage();
       let games = storage.get(GAMES);
+      let game  = games.find(game => game.id==game_id);
+      let time  = this.state.game.time;
       this.setState({
-        game: games.find(game => game.id==game_id)
+        game: game,
+        time: time + 1
       });
-    }, STORAGE_INTERVAL);
+    }, INTERVAL);
 
     this.surrender    = this.surrender.bind(this);
     this.leaveTheGame = this.leaveTheGame.bind(this);
@@ -38,7 +39,6 @@ export default class Game extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
-    clearInterval(this.storage);
   }
 
   render() {
@@ -54,17 +54,12 @@ export default class Game extends Component {
     let user    = storage.get(USER);
 
     if((user !== user1 && user !== user2) || status === STATUS_FINISHED) {
-/*      this.setState({
+     /*this.setState({
         disabled: true
       });*/
       button = <Back onClick={this.leaveTheGame} />;
     }
     else {
-      this.timer = setInterval(() => {
-        this.setState({
-          time: time + 1
-        });
-      }, 1);
       button = <Surrender onClick={this.surrender} />;
     }
 
@@ -125,12 +120,6 @@ export default class Game extends Component {
     }
   }
 
-  tick(){
-    this.setState({
-      time: this.state.time + 1
-    });
-  }
-
   surrender(){
     let game_id = this.state.game.id;
     let storage = new Storage();
@@ -181,4 +170,4 @@ const STATUS_FINISHED    = "finished";
 const GAMES              = 'games';
 const USER               = 'user';
 const GAME_ID            = 'game_id';
-const STORAGE_INTERVAL   = 2000;
+const INTERVAL           = 1000;

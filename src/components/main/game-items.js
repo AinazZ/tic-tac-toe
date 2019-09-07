@@ -10,7 +10,7 @@ let gamelist = [
                'O', null, 'X'
              ],
     xIsNext: null,
-    time:    15000,
+    time:    15,
     winner:  "Maks"
   },
   {
@@ -24,7 +24,7 @@ let gamelist = [
                'X', null, null
              ],
     xIsNext: false,
-    time:    25000,
+    time:    25,
     winner:  ""
   },
   {
