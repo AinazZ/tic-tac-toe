@@ -18,23 +18,27 @@ export default class Game extends Component {
 
     this.state = {
       redirect: false,
-      disabled: false,
       game:     games.find(game => game.id==game_id)
     };
 
+    this.timer = null;
+
+    this.surrender    = this.surrender.bind(this);
+    this.leaveTheGame = this.leaveTheGame.bind(this);
+  }
+
+  componentDidMount() {
     this.timer = setInterval(() => {
       let storage = new Storage();
-      let games = storage.get(GAMES);
-      let game  = games.find(game => game.id==game_id);
-      let time  = this.state.game.time;
+      let games   = storage.get(GAMES);
+      let game_id = storage.get(GAME_ID);
+      let game    = games.find(game => game.id==game_id);
+      let time    = this.state.game.time;
       this.setState({
         game: game,
         time: time + 1
       });
     }, INTERVAL);
-
-    this.surrender    = this.surrender.bind(this);
-    this.leaveTheGame = this.leaveTheGame.bind(this);
   }
 
   componentWillUnmount() {
@@ -49,14 +53,13 @@ export default class Game extends Component {
     let {status, user1, user2, field, xIsNext, time} = this.state.game;
     const winner = calculateWinner(field);
 
-    let button  = null;
-    let storage = new Storage();
-    let user    = storage.get(USER);
+    let button   = null;
+    let disabled = false;
+    let storage  = new Storage();
+    let user     = storage.get(USER);
 
-    if((user !== user1 && user !== user2) || status === STATUS_FINISHED) {
-     /*this.setState({
-        disabled: true
-      });*/
+    if(status === STATUS_FINISHED || !user || (user !== user1 && user !== user2)) {
+      disabled = true;
       button = <Back onClick={this.leaveTheGame} />;
     }
     else {
@@ -71,7 +74,7 @@ export default class Game extends Component {
           player2={user2}
           field={field}
           xIsNext={xIsNext}
-          disabled={this.state.disabled}
+          disabled={disabled}
           onClick={(i) => this.handleClick(i)}
         >
         </GameBoard>

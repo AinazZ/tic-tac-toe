@@ -28,9 +28,9 @@ export default class GameItem extends Component{
           {user2}
         </div>
         <div className="time">
-         <span>{Math.floor(time/1000/60/60)} : </span>
-         <span>{Math.floor(time/1000/60)} : </span>
-         <span>{Math.floor(time/1000)}</span>
+         <span>{Math.floor(time/60/60)} : </span>
+         <span>{Math.floor(time/60)} : </span>
+         <span>{Math.floor(time)}</span>
         </div>
       </div>
     );

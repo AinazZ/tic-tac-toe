@@ -72,17 +72,12 @@ export default class Main extends Component {
     let games   = storage.get(GAMES);
     let game = games.find(game => game.id==id);
     if(!game.user2) {
-      game.user2 = userName;
-    }
-    if(game.user1 && game.user2) {
       game.status = STATUS_IN_PROGRESS;
-
-      start = Date.now();
+      game.user2  = userName;
     }
     storage.set(USER,userName);
     storage.set(GAME_ID, id);
     storage.set(GAMES, games);
-    storage.set(TIME_START, start);
 
     this.setState({
       redirect: true
@@ -103,7 +98,6 @@ export default class Main extends Component {
 }
 
 const STATUS_IN_PROGRESS = "in-progress";
-const GAMES   = 'games';
-const USER    = 'user';
-const GAME_ID = 'game_id';
-const TIME_START = 'start';
+const GAMES              = 'games';
+const USER               = 'user';
+const GAME_ID            = 'game_id';
