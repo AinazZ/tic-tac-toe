@@ -1,24 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './timer.css';
 
-export default class Timer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      time: this.props.time
-    };
-  }
-
-  render() {
-    let time = this.state.time;
-
-    return (
-      <div className="timer">
-        <span>{Math.floor(time/60/60)} : </span>
-        <span>{Math.floor(time/60)} : </span>
-        <span>{Math.floor(time%60)}</span>
-      </div>
-    );
-  }
+export default function Timer(props) {
+  return (
+    <div className="timer">
+      <span>{Math.floor(props.time/60/60)} : </span>
+      <span>{Math.floor(props.time/60)} : </span>
+      <span>{Math.floor(props.time%60)}</span>
+    </div>
+  );
 }

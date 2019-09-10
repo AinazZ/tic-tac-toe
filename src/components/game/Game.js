@@ -13,8 +13,8 @@ export default class Game extends Component {
     super(props);
 
     let storage = new Storage();
-    let game_id = storage.get(GAME_ID);
     let games   = storage.get(GAMES);
+    let game_id = storage.get(GAME_ID);
 
     this.state = {
       redirect: false,
@@ -28,17 +28,21 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => {
-      let storage = new Storage();
-      let games   = storage.get(GAMES);
-      let game_id = storage.get(GAME_ID);
-      let game    = games.find(game => game.id==game_id);
-      let time    = this.state.game.time;
-      this.setState({
-        game: game,
-        time: time + 1
-      });
-    }, INTERVAL);
+    let storage  = new Storage();
+    let games    = storage.get(GAMES);
+    let game_id  = storage.get(GAME_ID);
+    let user     = storage.get(USER);
+    let game     = games.find(game => game.id==game_id);
+
+    if((user === game.user1 || user === game.user2) && game.status !== STATUS_FINISHED) {
+      this.timer = setInterval(() => {
+        game.time = game.time + 1;
+        this.setState({
+          game: game
+        });
+        storage.set(GAMES, games);
+      }, INTERVAL);
+    }
   }
 
   componentWillUnmount() {

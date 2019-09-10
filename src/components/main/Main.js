@@ -67,14 +67,15 @@ export default class Main extends Component {
 
   showGame(id) {
     let userName = this.user.value;
-    let start;
     let storage = new Storage();
     let games   = storage.get(GAMES);
     let game = games.find(game => game.id==id);
+
     if(!game.user2) {
       game.status = STATUS_IN_PROGRESS;
       game.user2  = userName;
     }
+
     storage.set(USER,userName);
     storage.set(GAME_ID, id);
     storage.set(GAMES, games);
