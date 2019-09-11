@@ -34,7 +34,7 @@ export default class Game extends Component {
     let user     = storage.get(USER);
     let game     = games.find(game => game.id==game_id);
 
-    if((user === game.user1 || user === game.user2) && game.status !== STATUS_FINISHED) {
+    if(user && (user === game.user1 || user === game.user2) && game.status !== STATUS_FINISHED) {
       this.timer = setInterval(() => {
         game.time = game.time + 1;
         this.setState({
@@ -55,7 +55,6 @@ export default class Game extends Component {
     }
 
     let {status, user1, user2, field, xIsNext, time} = this.state.game;
-    const winner = calculateWinner(field);
 
     let button   = null;
     let disabled = false;
@@ -100,7 +99,6 @@ export default class Game extends Component {
       game.status  = STATUS_IN_PROGRESS;
       game.field   = field;
       game.xIsNext = !this.state.game.xIsNext;
-      game.time    = this.state.game.time;
 
     storage.set(GAMES, games);
 
@@ -115,7 +113,6 @@ export default class Game extends Component {
 
       let game = games.find(game => game.id==game_id);
         game.status  = STATUS_FINISHED;
-        game.time = this.state.game.time;
         game.winner  = this.state.game.xIsNext ? this.state.game.user1 : this.state.game.user2;
 
       storage.set(GAMES, games);
@@ -134,7 +131,6 @@ export default class Game extends Component {
 
     let game = games.find(game => game.id==game_id);
       game.status = STATUS_FINISHED;
-      game.time = this.state.game.time;
       game.winner = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
 
     storage.set(GAMES, games);

@@ -15,3 +15,7 @@
 .player2 {
   text-align: right;
 }
+
+.move {
+  text-decoration: underline;
+}

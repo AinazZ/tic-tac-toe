@@ -15,7 +15,7 @@ export default class GameItem extends Component{
         user2Class = USER_WINNER;
       }
     }
-
+ 
     return(
       <div
         className={"gameItem " + status}

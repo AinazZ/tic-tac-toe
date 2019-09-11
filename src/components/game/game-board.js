@@ -14,14 +14,25 @@ export default class GameBoard extends Component {
   }
 
   render() {
+    let {player1, player2, xIsNext} = this.props;
+
+    let player1Class = USER_PLAYER;
+    let player2Class = USER_PLAYER;
+    if(xIsNext) {
+      player1Class = USER_MOVE;
+    }
+    else {
+      player2Class = USER_MOVE;
+    }
+
     return (
       <div className="gameBoard container">
         <div className="players row">
-          <div className="player1 col">
-            {this.props.player1} X
+          <div className={"player1 col " + player1Class}>
+            {player1} X
           </div>
-          <div className="player2 col">
-            O {this.props.player2}
+          <div className={"player2 col " + player2Class}>
+            O {player2}
           </div>
         </div>
         <div className="field container">
@@ -45,3 +56,6 @@ export default class GameBoard extends Component {
     );
   }
 }
+
+const USER_PLAYER = "player";
+const USER_MOVE   = "move";

@@ -12,7 +12,7 @@ export default class Main extends Component {
     super(props);
 
     let storage = new Storage();
-    let games = storage.get(GAMES);
+    let games   = storage.get(GAMES);
 
     this.state = {
       redirect: false,
@@ -38,6 +38,7 @@ export default class Main extends Component {
       }
       return 0;
     });
+
     let gameItems = games.map((game) => (
       <GameItem
         key={game.id}
@@ -67,11 +68,11 @@ export default class Main extends Component {
 
   showGame(id) {
     let userName = this.user.value;
-    let storage = new Storage();
-    let games   = storage.get(GAMES);
-    let game = games.find(game => game.id==id);
+    let storage  = new Storage();
+    let games    = storage.get(GAMES);
+    let game     = games.find(game => game.id==id);
 
-    if(!game.user2) {
+    if(userName && !game.user2) {
       game.status = STATUS_IN_PROGRESS;
       game.user2  = userName;
     }
@@ -86,7 +87,7 @@ export default class Main extends Component {
   }
 
   addGame() {
-    let length = this.state.games.length;
+    let length  = this.state.games.length;
     let newGame = new NewGame(length, this.user.value);
 
     this.state.games.push(newGame);
