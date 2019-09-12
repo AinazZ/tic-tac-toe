@@ -75,11 +75,12 @@ export default class Main extends Component {
     if(userName && !game.user2) {
       game.status = STATUS_IN_PROGRESS;
       game.user2  = userName;
+
+      storage.set(GAMES, games);
     }
 
     storage.set(USER,userName);
     storage.set(GAME_ID, id);
-    storage.set(GAMES, games);
 
     this.setState({
       redirect: true
@@ -87,15 +88,21 @@ export default class Main extends Component {
   }
 
   addGame() {
-    let length  = this.state.games.length;
-    let newGame = new NewGame(length, this.user.value);
+    let userName = this.user.value;
+    if(userName) {
+      let length  = this.state.games.length;
+      let newGame = new NewGame(length, this.user.value);
 
-    this.state.games.push(newGame);
-    let storage = new Storage();
-    storage.set(GAMES,this.state.games);
-    this.setState({
-      games: storage.get(GAMES)
-    });
+      this.state.games.push(newGame);
+      let storage = new Storage();
+      storage.set(GAMES,this.state.games);
+      this.setState({
+        games: storage.get(GAMES)
+      });
+    }
+    else {
+      alert ("Введите имя пользователя");
+    }
   }
 }
 

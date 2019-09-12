@@ -28,18 +28,22 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
+    let {user1, user2, status} = this.state.game;
     let storage  = new Storage();
-    let games    = storage.get(GAMES);
-    let game_id  = storage.get(GAME_ID);
     let user     = storage.get(USER);
-    let game     = games.find(game => game.id==game_id);
 
-    if(user && (user === game.user1 || user === game.user2) && game.status !== STATUS_FINISHED) {
+    if(user && (user === user1 || user === user2) && status !== STATUS_FINISHED) {
       this.timer = setInterval(() => {
-        game.time = game.time + 1;
+        let games    = storage.get(GAMES);
+        let game_id  = storage.get(GAME_ID);
+
+        let game = games.find(game => game.id==game_id);
+          game.time = game.time + 1;
+
         this.setState({
           game: game
         });
+
         storage.set(GAMES, games);
       }, INTERVAL);
     }
