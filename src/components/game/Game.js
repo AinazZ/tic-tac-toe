@@ -32,7 +32,7 @@ export default class Game extends Component {
     let storage  = new Storage();
     let user     = storage.get(USER);
 
-    if(user && (user === user1 || user === user2) && status !== STATUS_FINISHED) {
+    if(user && user2 && (user === user1 || user === user2) && status !== STATUS_FINISHED) {
       this.timer = setInterval(() => {
         let games    = storage.get(GAMES);
         let game_id  = storage.get(GAME_ID);
@@ -65,7 +65,7 @@ export default class Game extends Component {
     let storage  = new Storage();
     let user     = storage.get(USER);
 
-    if(status === STATUS_FINISHED || !user || (user !== user1 && user !== user2)) {
+    if(status === STATUS_FINISHED || !user || !user2 || (user !== user1 && user !== user2)) {
       disabled = true;
       button = <Back onClick={this.leaveTheGame} />;
     }
