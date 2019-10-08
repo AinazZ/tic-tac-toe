@@ -73,7 +73,7 @@ export default class Main extends Component {
     let userName = this.user.value;
     let storage  = new Storage();
     let games    = storage.get(GAMES);
-    let game     = games.find(game => game.id==id);
+    let game     = games.find(game => game.id===id);
 
     if(userName && !game.user2 && (userName !== game.user1)) {
       game.status = STATUS_IN_PROGRESS;

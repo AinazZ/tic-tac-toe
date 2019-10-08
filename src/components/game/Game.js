@@ -14,11 +14,11 @@ export default class Game extends Component {
 
     let storage = new Storage();
     let games   = storage.get(GAMES);
-    let game_id = storage.get(GAME_ID);
+    let game_id = +storage.get(GAME_ID);
 
     this.state = {
       redirect: false,
-      game:     games.find(game => game.id==game_id)
+      game:     games.find(game => game.id===game_id)
     };
 
     this.timer = null;
@@ -37,7 +37,7 @@ export default class Game extends Component {
         let games    = storage.get(GAMES);
         let game_id  = storage.get(GAME_ID);
 
-        let game = games.find(game => game.id==game_id);
+        let game = games.find(game => game.id===game_id);
           game.time = game.time + 1;
 
         this.setState({
@@ -99,7 +99,7 @@ export default class Game extends Component {
     let storage = new Storage();
     let games   = storage.get(GAMES);
 
-    let game = games.find(game => game.id==game_id);
+    let game = games.find(game => game.id===game_id);
       game.status  = STATUS_IN_PROGRESS;
       game.field   = field;
       game.xIsNext = !this.state.game.xIsNext;
@@ -115,7 +115,7 @@ export default class Game extends Component {
       let storage = new Storage();
       let games   = storage.get(GAMES);
 
-      let game = games.find(game => game.id==game_id);
+      let game = games.find(game => game.id===game_id);
         game.status  = STATUS_FINISHED;
         game.winner  = this.state.game.xIsNext ? this.state.game.user1 : this.state.game.user2;
 
@@ -133,7 +133,7 @@ export default class Game extends Component {
     let storage = new Storage();
     let games   = storage.get(GAMES);
 
-    let game = games.find(game => game.id==game_id);
+    let game = games.find(game => game.id===game_id);
       game.status = STATUS_FINISHED;
       game.winner = this.state.game.xIsNext ? this.state.game.user2 : this.state.game.user1;
 
