@@ -28,12 +28,12 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
+    const user = this.props.match.params.user;
     let {user1, user2, status} = this.state.game;
-    let storage  = new Storage();
-    let user     = storage.get(USER);
 
     if(user && user2 && (user === user1 || user === user2) && status !== STATUS_FINISHED) {
       this.timer = setInterval(() => {
+        let storage = new Storage();
         let games    = storage.get(GAMES);
         let game_id  = storage.get(GAME_ID);
 
@@ -58,18 +58,21 @@ export default class Game extends Component {
       return <Redirect to="/" />;
     }
 
+    const user = this.props.match.params.user;
+
     let {status, user1, user2, field, xIsNext, time} = this.state.game;
 
     let button   = null;
     let disabled = false;
-    let storage  = new Storage();
-    let user     = storage.get(USER);
 
     if(status === STATUS_FINISHED || !user || !user2 || (user !== user1 && user !== user2)) {
       disabled = true;
       button = <Back onClick={this.leaveTheGame} />;
     }
     else {
+      if((xIsNext && (user===user2)) || (!xIsNext && user===user1)){
+        disabled = true;
+      }
       button = <Surrender onClick={this.surrender} />;
     }
 
@@ -83,8 +86,7 @@ export default class Game extends Component {
           xIsNext={xIsNext}
           disabled={disabled}
           onClick={(i) => this.handleClick(i)}
-        >
-        </GameBoard>
+        />
         <Timer time={time} />
         {button}
       </div>
@@ -175,6 +177,5 @@ function calculateWinner(field) {
 const STATUS_IN_PROGRESS = "in-progress";
 const STATUS_FINISHED    = "finished";
 const GAMES              = 'games';
-const USER               = 'user';
 const GAME_ID            = 'game_id';
 const INTERVAL           = 1000;

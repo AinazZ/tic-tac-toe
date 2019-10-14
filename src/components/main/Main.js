@@ -18,6 +18,7 @@ export default class Main extends Component {
     }
 
     this.state = {
+      path: "",
       redirect: false,
       user:     '',
       games:    games
@@ -29,7 +30,7 @@ export default class Main extends Component {
 
   render() {
     if(this.state.redirect) {
-      return <Redirect to="/game" />;
+      return <Redirect to={this.state.path} />;
     }
 
     let games = this.state.games.sort(function (a,b) {
@@ -71,23 +72,29 @@ export default class Main extends Component {
 
   showGame(id) {
     let userName = this.user.value;
-    let storage  = new Storage();
-    let games    = storage.get(GAMES);
-    let game     = games.find(game => game.id===id);
 
-    if(userName && !game.user2 && (userName !== game.user1)) {
-      game.status = STATUS_IN_PROGRESS;
-      game.user2  = userName;
+    if(userName) {
+      let storage  = new Storage();
+      let games    = storage.get(GAMES);
+      let game     = games.find(game => game.id===id);
 
-      storage.set(GAMES, games);
+      if(userName && !game.user2 && (userName !== game.user1)) {
+        game.status = STATUS_IN_PROGRESS;
+        game.user2  = userName;
+
+        storage.set(GAMES, games);
+      }
+
+      storage.set(GAME_ID, id);
+
+      this.setState({
+        path: "/game/" + userName,
+        redirect: true
+      });
     }
-
-    storage.set(USER,userName);
-    storage.set(GAME_ID, id);
-
-    this.setState({
-      redirect: true
-    });
+    else {
+      alert("Введите своё имя!");
+    }
   }
 
   addGame() {
@@ -111,5 +118,4 @@ export default class Main extends Component {
 
 const STATUS_IN_PROGRESS = "in-progress";
 const GAMES              = 'games';
-const USER               = 'user';
 const GAME_ID            = 'game_id';
